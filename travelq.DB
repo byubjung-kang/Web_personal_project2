@@ -1,0 +1,55 @@
+DROP TABLE IF EXISTS travel_records;
+
+CREATE TABLE travel_records (
+    ref_number VARCHAR(255),
+    disclosure_group VARCHAR(255),
+    title_en TEXT NULL,
+    title_fr TEXT NULL,
+    name VARCHAR(255) NULL,
+    purpose_en TEXT NULL,
+    purpose_fr TEXT NULL,
+    start_date DATE NULL,
+    end_date DATE NULL,
+    destination_en TEXT NULL,
+    destination_fr TEXT NULL,
+    airfare DECIMAL(10, 2) NULL,
+    other_transport DECIMAL(10, 2) NULL,
+    lodging DECIMAL(10, 2) NULL,
+    meals DECIMAL(10, 2) NULL,
+    other_expenses DECIMAL(10, 2) NULL,
+    total DECIMAL(10, 2) NULL,
+    additional_comments_en TEXT NULL,
+    additional_comments_fr TEXT NULL,
+    owner_org VARCHAR(255) NULL,
+    owner_org_title VARCHAR(255) NULL
+);
+
+
+LOAD DATA INFILE ' C:\lvl4\programming research\CST8333_Practical_Proj_part3_byubjung_kang\travelq.csv'
+INTO TABLE travel_records
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(ref_number, @disclosure_group, @title_en, @title_fr, @name, @purpose_en, @purpose_fr, @start_date, @end_date, @destination_en, @destination_fr, 
+@airfare, @other_transport, @lodging, @meals, @other_expenses, @total, @additional_comments_en, @additional_comments_fr, @owner_org, @owner_org_title)
+SET disclosure_group = NULLIF(@disclosure_group, ''),
+    title_en = NULLIF(@title_en, ''),
+    title_fr = NULLIF(@title_fr, ''),
+    name = NULLIF(@name, ''),
+    purpose_en = NULLIF(@purpose_en, ''),
+    purpose_fr = NULLIF(@purpose_fr, ''),
+    start_date = NULLIF(@start_date, ''),
+    end_date = NULLIF(@end_date, ''),
+    destination_en = NULLIF(@destination_en, ''),
+    destination_fr = NULLIF(@destination_fr, ''),
+    airfare = NULLIF(@airfare, ''),
+    other_transport = NULLIF(@other_transport, ''),
+    lodging = NULLIF(@lodging, ''),
+    meals = NULLIF(@meals, ''),
+    other_expenses = NULLIF(@other_expenses, ''),
+    total = NULLIF(@total, ''),
+    additional_comments_en = NULLIF(@additional_comments_en, ''),
+    additional_comments_fr = NULLIF(@additional_comments_fr, ''),
+    owner_org = NULLIF(@owner_org, ''),
+    owner_org_title = NULLIF(@owner_org_title, '');

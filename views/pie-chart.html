@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pie Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category') || 'total';
+
+        fetch(`/pie-chart-data?category=${category}`)
+            .then(response => response.json())
+            .then(data => renderPieChart(data, category))
+            .catch(error => console.error('Error:', error));
+
+        function renderPieChart(data, category) {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const chartData = {
+                labels: data.map(item => item.title_en),
+                datasets: [{
+                    label: category.charAt(0).toUpperCase() + category.slice(1), 
+                    data: data.map(item => item.total),
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: chartData
+            });
+        }
+    </script>
+</body>
+</html>
